@@ -19,15 +19,16 @@ def displayQuestion(formattedQuestion):
     print("Question #" + str(qNumber) )
     print(formattedQuestion['question'])
     for x in range(len(formattedQuestion['choices'])):
-        print( str(x) + " ) " + formattedQuestion['choices'][x])
+        questionNum = x + 1
+        print( str(questionNum) + " ) " + formattedQuestion['choices'][x])
 
 def obtainAnswer(formattedQuestion):
     global numberOfCorrectAnswers
     global numberOfIncorrectAnswers
 
-    answer = input("What is the answer?  ")
+    answer = str(input("What is the answer?  "))
 
-    if answer == formattedQuestion['answer']:
+    if answer == str(formattedQuestion['answer']):
         print("Correct!")
         numberOfCorrectAnswers = numberOfCorrectAnswers + 1
     else:

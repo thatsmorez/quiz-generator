@@ -40,7 +40,7 @@ def readQuestionFile(filename):
                 else:
                     question += line
             elif status == 2:
-                answer = line
+                answer = line.strip()
                 status = 3
             else:
                 if line.startswith(A_END):
@@ -52,7 +52,7 @@ def readQuestionFile(filename):
                     choices = []
                     answer = ""
                 else:
-                    choices.append(line)
+                    choices.append(line.strip())
 
     f.close()
 
