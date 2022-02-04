@@ -7,6 +7,7 @@
  
 from questionFileReader import *
 from quizController import *
+import time
 
 numberOfQuestionsToAsk = 0
 readFile = True
@@ -63,7 +64,7 @@ def obtainQuizInformation():
     if numberOfQuestionsToAsk == 0:
         print("Zero was inputted as number of questions to ask. Goodbye.")
 
-def displayMetrics():
+def displayMetrics(tic, toc):
     correct = getNumberOfCorrectAnswers()
     incorrect = getNumberOfIncorrectAnswers()
     global numberOfQuestionsToAsk
@@ -74,6 +75,7 @@ def displayMetrics():
     print("Quiz Metrics")
     print("Percentage of Correct Answers: " + str(percentCorrect))
     print("Percentage of Incorrect Answers: " + str(percentInorrect))
+    print(f"Quiz duration: {toc - tic:0.4f} seconds")
 
 
 def main():
@@ -91,9 +93,12 @@ def main():
         quit()
 
     qlist = getQuestionList()
-    startQuiz(numberOfQuestionsToAsk, qlist)
 
-    displayMetrics()
+    tic = time.perf_counter()
+    startQuiz(numberOfQuestionsToAsk, qlist)
+    toc = time.perf_counter()
+
+    displayMetrics(tic, toc)
 
 if __name__ == "__main__":
     main()
