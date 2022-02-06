@@ -13,7 +13,8 @@ UNIX_EOL    = "\n"
 WINDOWS_EOL = "\r\n"
 
 MAX_Q       = "1000"
-MAX_Q_LINES = "10"
+MAX_Q_LINES = 10
+MAX_A_LINES = 10
 
 def readQuestionFile(filename):
     f = open(filename, 'r')
@@ -21,6 +22,8 @@ def readQuestionFile(filename):
     global questionList
     status = 0
     question = ""
+    questionLines = 0
+    choicesLines = 0
     choices = []
     answer = ""
 
@@ -38,7 +41,9 @@ def readQuestionFile(filename):
                     # Answer section started
                     status = 2
                 else:
-                    question += line
+                    if questionLines < MAX_Q_LINES:
+                        question += line
+                        questionLines = questionLines + 1
             elif status == 2:
                 answer = line.strip()
                 status = 3
@@ -51,8 +56,12 @@ def readQuestionFile(filename):
                     question = ""
                     choices = []
                     answer = ""
+                    questionLines = 0
+                    choicesLines = 0
                 else:
-                    choices.append(line.strip())
+                    if choicesLines < MAX_A_LINES:
+                        choices.append(line.strip())
+                        choicesLines = choicesLines + 1
 
     f.close()
 
