@@ -1,16 +1,18 @@
 import random
+import sys
+import os
 
-numberOfCorrectAnswers = 0
-numberOfIncorrectAnswers = 0
 numberOfQuestionsAsked = 0
 
-def startQuiz(numberOfQuestionsToAsk, questionList):
+def startQuiz(numberOfQuestionsToAsk, questionList, numberOfCorrectAnswers, numberOfIncorrectAnswers, newstdin='Nope'):
     global numberOfQuestionsAsked
+    numberOfIncorrectAnswers.value = numberOfQuestionsToAsk
+    
     updatedList = random.sample(questionList, numberOfQuestionsToAsk)
-
+    
     while numberOfQuestionsToAsk > numberOfQuestionsAsked:
         displayQuestion(updatedList[numberOfQuestionsAsked])
-        obtainAnswer(updatedList[numberOfQuestionsAsked])
+        obtainAnswer(updatedList[numberOfQuestionsAsked], newstdin, numberOfCorrectAnswers, numberOfIncorrectAnswers)
         numberOfQuestionsAsked = numberOfQuestionsAsked + 1
 
 def displayQuestion(formattedQuestion):
@@ -22,26 +24,20 @@ def displayQuestion(formattedQuestion):
         questionNum = x + 1
         print( str(questionNum) + " ) " + formattedQuestion['choices'][x])
 
-def obtainAnswer(formattedQuestion):
-    global numberOfCorrectAnswers
-    global numberOfIncorrectAnswers
-
+def obtainAnswer(formattedQuestion, newstdin, numberOfCorrectAnswers, numberOfIncorrectAnswers):
+    if newstdin != 'Nope':
+        sys.stdin = newstdin
     answer = str(input("What is the answer?  "))
 
     if answer == str(formattedQuestion['answer']):
         print("Correct!")
-        numberOfCorrectAnswers = numberOfCorrectAnswers + 1
+        numberOfCorrectAnswers.value = numberOfCorrectAnswers.value + 1
+        numberOfIncorrectAnswers.value = numberOfIncorrectAnswers.value - 1
     else:
         print("Incorrect. The answer is " + formattedQuestion['answer'] )
-        numberOfIncorrectAnswers = numberOfIncorrectAnswers + 1
     
     print("\n\r")
 
-def getNumberOfCorrectAnswers():
-    return numberOfCorrectAnswers
-
-def getNumberOfIncorrectAnswers():
-    return numberOfIncorrectAnswers
 
     
 
