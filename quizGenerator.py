@@ -8,6 +8,7 @@
 from questionFileReader import *
 from quizController import *
 from quizLogFileGenerator import *
+from quizUI import *
 import time
 import platform
 import sys
@@ -61,6 +62,9 @@ def displayMetrics(tic, toc, correct, incorrect):
     print("Percentage of Correct Answers: " + str(percentCorrect))
     print("Percentage of Incorrect Answers: " + str(percentInorrect))
     print(f"Quiz duration: {toc - tic:0.4f} seconds")
+
+def getReadFile():
+	return readFile
 
 def main():
     global numberOfQuestionsToAsk
@@ -127,11 +131,9 @@ def main():
             viewUserData('/home/smoore/.quizLogfile')
 
     elif (my_os == 'Windows'):
-        print("I'm working on it")
+        startWinApplication()
     else :
         sys.exit("Unsupported Operating System. Please run on either a Linux or Windows environment")
 
 if __name__ == "__main__":
     main()
-
-

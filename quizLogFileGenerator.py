@@ -1,5 +1,9 @@
 import os, platform, sys
 from datetime import date
+import tkinter
+from tkinter import ttk, filedialog
+from tkinter.filedialog import askopenfile
+
 
 #common variables which will be used in multiple functions
 USER_START     = "@USER"
@@ -9,19 +13,19 @@ SCORE_START    = "@SCORE"
 DATE_START     = "@DATE"
 
 
-def generateLogFile(correct, numQuestions, questionFile, filepath ):
-
-    os.umask(0)
-    f = open(os.open(filepath, os.O_CREAT | os.O_WRONLY, 0o777), 'a')
-
-    
+def generateLogFile(correct, numQuestions, questionFile, filepath ):    
     my_os = platform.system()
     if (my_os == 'Linux'):
         newline = '\n'
+        os.umask(0)
+        f = open(os.open(filepath, os.O_CREAT | os.O_WRONLY, 0o777), 'a')
+        user = os.environ.get('USER')
     else:
-        newline = '\n\r'
+        f = open(filepath, 'a+')
+        user = os.getlogin()
+        newline = '\n'
+
     f.write(newline + "--------------------------------------------------------" + newline)
-    user = os.environ.get('USER')
     f.write(USER_START + " : " + str(user) + newline)
     f.write(INPUT_START + " : " + questionFile + newline)
     f.write(NUMQ_START + " : " + str(numQuestions) + newline)
@@ -36,11 +40,12 @@ def viewUserData(filename):
     if (os.path.exists(filename) == False):
         print("Past Histroy Logfile doesn't exist. Please try again.")
         return
-    
-    os.chmod(filename, 0o777)
-    
+
+
     f = open(filename, "r")
     status = 0
+   
+    os.chmod(filename, 0o777)
     user = os.environ.get('USER')
     for line in f:
         if line[0] != "-" and len(line) != 1:
@@ -66,7 +71,7 @@ def viewUserData(filename):
                     print(line)
                     print("-----------------------------------")
                     status = 0
-                    
+   					                 
     f.close()
         
     os.chmod(filename, 0o700)
